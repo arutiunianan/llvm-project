@@ -499,6 +499,7 @@ set(LLVM_ALL_TARGETS
   WebAssembly
   X86
   XCore
+  Simulator
   )
 
 set(LLVM_ALL_EXPERIMENTAL_TARGETS
