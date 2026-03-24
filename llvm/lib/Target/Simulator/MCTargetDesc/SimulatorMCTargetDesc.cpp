@@ -1,4 +1,5 @@
 #include "MCTargetDesc/SimulatorInfo.h"
+#include "SimulatorInstPrinter.h"
 #include "SimulatorMCAsmInfo.h"
 #include "TargetInfo/SimulatorTargetInfo.h"
 #include "llvm/MC/MCDwarf.h"
@@ -46,6 +47,14 @@ static MCAsmInfo *createSimulatorMCAsmInfo(const MCRegisterInfo &MRI,
   return MAI;
 }
 
+static MCInstPrinter *createSimulatorMCInstPrinter(const Triple &T,
+                                             unsigned SyntaxVariant,
+                                             const MCAsmInfo &MAI,
+                                             const MCInstrInfo &MII,
+                                             const MCRegisterInfo &MRI) {
+  return new SimulatorInstPrinter(MAI, MII, MRI);
+}
+
 extern "C" void LLVMInitializeSimulatorTargetMC() {
   Target &TheSimulatorTarget = getTheSimulatorTarget();
   RegisterMCAsmInfoFn X(TheSimulatorTarget, createSimulatorMCAsmInfo);
@@ -53,4 +62,5 @@ extern "C" void LLVMInitializeSimulatorTargetMC() {
   TargetRegistry::RegisterMCInstrInfo(TheSimulatorTarget, createSimulatorMCInstrInfo);
   TargetRegistry::RegisterMCSubtargetInfo(TheSimulatorTarget,
                                           createSimulatorMCSubtargetInfo);
+  TargetRegistry::RegisterMCInstPrinter(TheSimulatorTarget, createSimulatorMCInstPrinter);
 }
