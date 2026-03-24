@@ -3,6 +3,7 @@
 
 #include "SimulatorFrameLowering.h"
 #include "SimulatorISelLowering.h"
+#include "SimulatorRegisterInfo.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
 
 #define GET_SUBTARGETINFO_HEADER
@@ -13,6 +14,7 @@ namespace llvm {
 class SimulatorSubtarget : public SimulatorGenSubtargetInfo {
   SimulatorTargetLowering TLInfo;
   SimulatorFrameLowering FrameLowering;
+  SimulatorRegisterInfo RegInfo;
 
 public:
   SimulatorSubtarget(const Triple &TT, const std::string &CPU, const std::string &FS,
@@ -25,6 +27,9 @@ public:
   }
   const SimulatorFrameLowering *getFrameLowering() const override {
     return &FrameLowering;
+  }
+  const SimulatorRegisterInfo *getRegisterInfo() const override {
+    return &RegInfo;
   }
 };
 
