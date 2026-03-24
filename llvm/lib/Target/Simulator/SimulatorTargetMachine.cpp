@@ -63,7 +63,12 @@ public:
   SimulatorPassConfig(SimulatorTargetMachine &TM, PassManagerBase &PM)
       : TargetPassConfig(TM, PM) {}
 
+  SimulatorTargetMachine &getSimulatorTargetMachine() const {
+    return getTM<SimulatorTargetMachine>();
+  }
+
   bool addInstSelector() override {
+    addPass(createSimulatorISelDag(getSimulatorTargetMachine(), getOptLevel()));
     return false;
   }
 };
