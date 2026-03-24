@@ -55,3 +55,21 @@ SimulatorTargetMachine::SimulatorTargetMachine(const Target &T, const Triple &TT
 TargetPassConfig *SimulatorTargetMachine::createPassConfig(PassManagerBase &PM) {
   return new TargetPassConfig(*this, PM);
 }
+
+namespace {
+
+class SimulatorPassConfig : public TargetPassConfig {
+public:
+  SimulatorPassConfig(SimulatorTargetMachine &TM, PassManagerBase &PM)
+      : TargetPassConfig(TM, PM) {}
+
+  bool addInstSelector() override {
+    return false;
+  }
+};
+
+} // end anonymous namespace
+
+TargetPassConfig *SimulatorTargetMachine::createPassConfig(PassManagerBase &PM) {
+  return new SimulatorPassConfig(*this, PM);
+}
