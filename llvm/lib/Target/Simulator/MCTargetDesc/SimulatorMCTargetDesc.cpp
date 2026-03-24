@@ -1,9 +1,12 @@
 #include "MCTargetDesc/SimulatorInfo.h"
+#include "SimulatorMCAsmInfo.h"
 #include "TargetInfo/SimulatorTargetInfo.h"
+#include "llvm/MC/MCDwarf.h"
 #include "llvm/MC/MCInstrInfo.h"
 #include "llvm/MC/MCRegisterInfo.h"
 #include "llvm/MC/MCSubtargetInfo.h"
 #include "llvm/MC/TargetRegistry.h"
+#include "llvm/Support/ErrorHandling.h"
 
 using namespace llvm;
 
@@ -33,8 +36,19 @@ static MCSubtargetInfo *createSimulatorMCSubtargetInfo(const Triple &TT,
   return createSimulatorMCSubtargetInfoImpl(TT, CPU, /*TuneCPU*/ CPU, FS);
 }
 
+static MCAsmInfo *createSimulatorMCAsmInfo(const MCRegisterInfo &MRI,
+                                     const Triple &TT,
+                                     const MCTargetOptions &Options) {
+  MCAsmInfo *MAI = new SimulatorELFMCAsmInfo(TT);
+  unsigned SP = MRI.getDwarfRegNum(Simulator::R1, true);
+  MCCFIInstruction Inst = MCCFIInstruction::cfiDefCfa(nullptr, SP, 0);
+  MAI->addInitialFrameState(Inst);
+  return MAI;
+}
+
 extern "C" void LLVMInitializeSimulatorTargetMC() {
   Target &TheSimulatorTarget = getTheSimulatorTarget();
+  RegisterMCAsmInfoFn X(TheSimulatorTarget, createSimulatorMCAsmInfo);
   TargetRegistry::RegisterMCRegInfo(TheSimulatorTarget, createSimulatorMCRegisterInfo);
   TargetRegistry::RegisterMCInstrInfo(TheSimulatorTarget, createSimulatorMCInstrInfo);
   TargetRegistry::RegisterMCSubtargetInfo(TheSimulatorTarget,
