@@ -3,7 +3,9 @@
 
 #include "SimulatorFrameLowering.h"
 #include "SimulatorISelLowering.h"
+#include "SimulatorInstrInfo.h"
 #include "SimulatorRegisterInfo.h"
+#include "llvm/CodeGen/SelectionDAGTargetInfo.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
 
 #define GET_SUBTARGETINFO_HEADER
@@ -15,6 +17,8 @@ class SimulatorSubtarget : public SimulatorGenSubtargetInfo {
   SimulatorTargetLowering TLInfo;
   SimulatorFrameLowering FrameLowering;
   SimulatorRegisterInfo RegInfo;
+  SimulatorInstrInfo InstrInfo;
+  SelectionDAGTargetInfo TSInfo;
 
 public:
   SimulatorSubtarget(const Triple &TT, const std::string &CPU, const std::string &FS,
@@ -30,6 +34,10 @@ public:
   }
   const SimulatorRegisterInfo *getRegisterInfo() const override {
     return &RegInfo;
+  }
+  const SimulatorInstrInfo *getInstrInfo() const override { return &InstrInfo; }
+  const SelectionDAGTargetInfo *getSelectionDAGInfo() const override {
+    return &TSInfo;
   }
 };
 
