@@ -5,6 +5,7 @@ set(LLVM_TARGET_DEFINITIONS Simulator.td)
 tablegen(LLVM SimulatorGenRegisterInfo.inc -gen-register-info)
 tablegen(LLVM SimulatorGenInstrInfo.inc -gen-instr-info)
 tablegen(LLVM SimulatorGenSubtargetInfo.inc -gen-subtarget)
+tablegen(LLVM SimulatorGenMCPseudoLowering.inc -gen-pseudo-lowering)
 tablegen(LLVM SimulatorGenCallingConv.inc -gen-callingconv)
 tablegen(LLVM SimulatorGenAsmWriter.inc -gen-asm-writer)
 
@@ -18,6 +19,7 @@ add_llvm_target(SimulatorCodeGen
     SimulatorAsmPrinter.cpp
     SimulatorISelDagToDag.cpp
     SimulatorISelLowering.cpp
+    SimulatorMCInstLower.cpp
 
   LINK_COMPONENTS
   CodeGen
@@ -25,6 +27,7 @@ add_llvm_target(SimulatorCodeGen
   Support
   Target
   SimulatorInfo
+  AsmPrinter
 
   ADD_TO_COMPONENT
   Simulator

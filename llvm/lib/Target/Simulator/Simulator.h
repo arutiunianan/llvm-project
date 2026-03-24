@@ -6,6 +6,19 @@
 namespace llvm {
 class SimulatorTargetMachine;
 class FunctionPass;
+class SimulatorSubtarget;
+class AsmPrinter;
+class InstructionSelector;
+class MCInst;
+class MCOperand;
+class MachineInstr;
+class MachineOperand;
+class PassRegistry;
+
+bool lowerSimulatorMachineInstrToMCInst(const MachineInstr *MI, MCInst &OutMI,
+                                  AsmPrinter &AP);
+bool LowerSimulatorMachineOperandToMCOperand(const MachineOperand &MO,
+                                       MCOperand &MCOp, const AsmPrinter &AP);
 
 FunctionPass *createSimulatorISelDag(SimulatorTargetMachine &TM, CodeGenOptLevel OptLevel);
 
