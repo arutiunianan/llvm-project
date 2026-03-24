@@ -9,6 +9,6 @@ using namespace llvm;
 #define GET_SUBTARGETINFO_CTOR
 #include "SimulatorGenSubtargetInfo.inc"
 
-SimulatorSubtarget::SimulatorSubtarget(const StringRef &CPU, const StringRef &TuneCPU,
-                           const StringRef &FS, const TargetMachine &TM)
-    : SimulatorGenSubtargetInfo(TM.getTargetTriple(), CPU, TuneCPU, FS) {}
+SimulatorSubtarget::SimulatorSubtarget(const Triple &TT, const std::string &CPU,
+                           const std::string &FS, const TargetMachine &TM)
+    : SimulatorGenSubtargetInfo(TT, CPU, /*TuneCPU=*/CPU, FS), TLInfo(TM, *this) {}

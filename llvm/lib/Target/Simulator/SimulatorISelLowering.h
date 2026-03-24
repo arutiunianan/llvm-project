@@ -21,6 +21,19 @@ enum NodeType : unsigned {
 
 } // namespace SimulatorISD
 
+class SimulatorTargetLowering : public TargetLowering {
+public:
+  explicit SimulatorTargetLowering(const TargetMachine &TM, const SimulatorSubtarget &STI);
+
+  /// This method returns the name of a target specific DAG node.
+  const char *getTargetNodeName(unsigned Opcode) const override;
+
+  SimulatorSubtarget const &getSubtarget() const { return STI; }
+
+private:
+  const SimulatorSubtarget &STI;
+};
+
 } // end namespace llvm
 
 #endif // LLVM_LIB_TARGET_SIMULATOR_SIMULATORISELLOWERING_H

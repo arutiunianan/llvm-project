@@ -13,6 +13,9 @@ add_llvm_target(SimulatorCodeGen
     SimulatorRegisterInfo.cpp
     SimulatorInstrInfo.cpp
     SimulatorSubtarget.cpp
+    SimulatorAsmPrinter.cpp
+    SimulatorISelDagToDag.cpp
+    SimulatorISelLowering.cpp
 
   LINK_COMPONENTS
   CodeGen
