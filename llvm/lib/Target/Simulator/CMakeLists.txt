@@ -5,6 +5,7 @@ set(LLVM_TARGET_DEFINITIONS Simulator.td)
 tablegen(LLVM SimulatorGenRegisterInfo.inc -gen-register-info)
 tablegen(LLVM SimulatorGenInstrInfo.inc -gen-instr-info)
 tablegen(LLVM SimulatorGenSubtargetInfo.inc -gen-subtarget)
+tablegen(LLVM SimulatorGenCallingConv.inc -gen-callingconv)
 
 add_public_tablegen_target(SimulatorCommonTableGen)
 
