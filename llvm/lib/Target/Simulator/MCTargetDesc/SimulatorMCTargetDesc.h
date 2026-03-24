@@ -4,4 +4,7 @@
 #define GET_REGINFO_ENUM
 #include "SimulatorGenRegisterInfo.inc"
 
+#define GET_INSTRINFO_ENUM
+#include "SimulatorGenInstrInfo.inc"
+
 #endif // LLVM_LIB_TARGET_SIMULATOR_MCTARGETDESC_SIMULATORMCTARGETDESC_H

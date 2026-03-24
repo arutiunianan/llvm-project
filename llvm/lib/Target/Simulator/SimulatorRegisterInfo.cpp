@@ -1,5 +1,4 @@
 #include "SimulatorRegisterInfo.h"
-#include "Simulator.h"
 #include "SimulatorFrameLowering.h"
 #include "llvm/CodeGen/TargetInstrInfo.h"
 

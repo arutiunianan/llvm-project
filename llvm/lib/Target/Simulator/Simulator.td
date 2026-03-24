@@ -1,4 +1,8 @@
 include "llvm/Target/Target.td"
 include "SimulatorRegisterInfo.td"
+include "SimulatorInstrInfo.td"
 
-def Simulator : Target;
+def SimulatorInstrInfo : InstrInfo;
+def Simulator : Target {
+  let InstructionSet = SimulatorInstrInfo;
+}
