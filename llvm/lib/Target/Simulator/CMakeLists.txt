@@ -4,6 +4,7 @@ set(LLVM_TARGET_DEFINITIONS Simulator.td)
 
 tablegen(LLVM SimulatorGenRegisterInfo.inc -gen-register-info)
 tablegen(LLVM SimulatorGenInstrInfo.inc -gen-instr-info)
+tablegen(LLVM SimulatorGenSubtargetInfo.inc -gen-subtarget)
 
 add_public_tablegen_target(SimulatorCommonTableGen)
 
@@ -11,6 +12,7 @@ add_llvm_target(SimulatorCodeGen
     SimulatorTargetMachine.cpp
     SimulatorRegisterInfo.cpp
     SimulatorInstrInfo.cpp
+    SimulatorSubtarget.cpp
 
   LINK_COMPONENTS
   CodeGen
