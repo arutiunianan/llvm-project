@@ -10,4 +10,4 @@ add_llvm_component_library(LLVMSimulatorDesc
 
   ADD_TO_COMPONENT
   Simulator
-)
+ )

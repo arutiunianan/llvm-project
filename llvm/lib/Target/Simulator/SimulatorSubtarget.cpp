@@ -1,4 +1,5 @@
 #include "SimulatorSubtarget.h"
+#include "Simulator.h"
 #include "llvm/Target/TargetMachine.h"
 
 using namespace llvm;
@@ -12,4 +13,6 @@ using namespace llvm;
 SimulatorSubtarget::SimulatorSubtarget(const Triple &TT, const std::string &CPU,
                            const std::string &FS, const TargetMachine &TM)
     : SimulatorGenSubtargetInfo(TT, CPU, /*TuneCPU=*/CPU, FS), TLInfo(TM, *this),
-      FrameLowering(*this), InstrInfo() {}
+      FrameLowering(*this), InstrInfo() {
+  SIMULATOR_DUMP_CYAN
+}

@@ -37,8 +37,8 @@ void SimulatorTargetLowering::ReplaceNodeResults(SDNode *N,
 SimulatorTargetLowering::SimulatorTargetLowering(const TargetMachine &TM,
                                      const SimulatorSubtarget &STI)
     : TargetLowering(TM), STI(STI) {
+  SIMULATOR_DUMP_RED
   addRegisterClass(MVT::i32, &Simulator::GPRRegClass);
-
   computeRegisterProperties(STI.getRegisterInfo());
 
   setStackPointerRegisterToSaveRestore(Simulator::R1);
@@ -63,6 +63,7 @@ SimulatorTargetLowering::SimulatorTargetLowering(const TargetMachine &TM,
 }
 
 const char *SimulatorTargetLowering::getTargetNodeName(unsigned Opcode) const {
+  SIMULATOR_DUMP_RED
   switch (Opcode) {
   case SimulatorISD::CALL:
     return "SimulatorISD::CALL";
@@ -89,6 +90,7 @@ static Align getPrefTypeAlign(EVT VT, SelectionDAG &DAG) {
 
 SDValue SimulatorTargetLowering::LowerCall(TargetLowering::CallLoweringInfo &CLI,
                                      SmallVectorImpl<SDValue> &InVals) const {
+  SIMULATOR_DUMP_RED
   SelectionDAG &DAG = CLI.DAG;
   SDLoc &DL = CLI.DL;
   SmallVectorImpl<ISD::OutputArg> &Outs = CLI.Outs;
@@ -386,10 +388,12 @@ static SDValue unpackFromMemLoc(SelectionDAG &DAG, SDValue Chain,
   return Val;
 }
 
+/// Simulator formal arguments implementation
 SDValue SimulatorTargetLowering::LowerFormalArguments(
     SDValue Chain, CallingConv::ID CallConv, bool IsVarArg,
     const SmallVectorImpl<ISD::InputArg> &Ins, const SDLoc &DL,
     SelectionDAG &DAG, SmallVectorImpl<SDValue> &InVals) const {
+  SIMULATOR_DUMP_RED
   switch (CallConv) {
   default:
     report_fatal_error("Unsupported calling convention");
@@ -508,6 +512,7 @@ bool SimulatorTargetLowering::CanLowerReturn(
     CallingConv::ID CallConv, MachineFunction &MF, bool IsVarArg,
     const SmallVectorImpl<ISD::OutputArg> &Outs, LLVMContext &Context,
     const Type *RetTy) const {
+  SIMULATOR_DUMP_RED
   SmallVector<CCValAssign, 16> RVLocs;
   CCState CCInfo(CallConv, IsVarArg, MF, RVLocs, Context);
   if (!CCInfo.CheckReturn(Outs, RetCC_Simulator))
@@ -523,6 +528,7 @@ SimulatorTargetLowering::LowerReturn(SDValue Chain, CallingConv::ID CallConv,
                                const SmallVectorImpl<ISD::OutputArg> &Outs,
                                const SmallVectorImpl<SDValue> &OutVals,
                                const SDLoc &DL, SelectionDAG &DAG) const {
+  SIMULATOR_DUMP_RED
   const MachineFunction &MF = DAG.getMachineFunction();
   const SimulatorSubtarget &STI = MF.getSubtarget<SimulatorSubtarget>();
 
@@ -579,6 +585,7 @@ bool SimulatorTargetLowering::isLegalAddressingMode(const DataLayout &DL,
                                               const AddrMode &AM, Type *Ty,
                                               unsigned AS,
                                               Instruction *I) const {
+  SIMULATOR_DUMP_RED
   // No global is ever allowed as a base.
   if (AM.BaseGV)
     return false;
@@ -587,7 +594,7 @@ bool SimulatorTargetLowering::isLegalAddressingMode(const DataLayout &DL,
     return false;
 
   switch (AM.Scale) {
-    case 0: // "r+i" or just "i", depending on HasBaseReg.
+  case 0: // "r+i" or just "i", depending on HasBaseReg.
     break;
   case 1:
     if (!AM.HasBaseReg) // allow "r+i".

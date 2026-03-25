@@ -1,6 +1,5 @@
 #include "Simulator.h"
 #include "SimulatorSubtarget.h"
-#include "MCTargetDesc/SimulatorMCExpr.h"
 #include "llvm/CodeGen/AsmPrinter.h"
 #include "llvm/CodeGen/MachineBasicBlock.h"
 #include "llvm/CodeGen/MachineInstr.h"
@@ -71,6 +70,7 @@ bool llvm::LowerSimulatorMachineOperandToMCOperand(const MachineOperand &MO,
 
 bool llvm::lowerSimulatorMachineInstrToMCInst(const MachineInstr *MI, MCInst &OutMI,
                                         AsmPrinter &AP) {
+  SIMULATOR_DUMP_RED
   OutMI.setOpcode(MI->getOpcode());
 
   for (const MachineOperand &MO : MI->operands()) {

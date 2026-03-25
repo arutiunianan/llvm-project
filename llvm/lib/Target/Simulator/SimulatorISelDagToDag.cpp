@@ -33,15 +33,17 @@ public:
   SimulatorDAGToDAGISel() = delete;
   explicit SimulatorDAGToDAGISel(SimulatorTargetMachine &TM, CodeGenOptLevel OptLevel)
       : SelectionDAGISel(TM, OptLevel) {
+    SIMULATOR_DUMP_RED
   }
 
   bool runOnMachineFunction(MachineFunction &MF) override {
+    SIMULATOR_DUMP_RED
     return SelectionDAGISel::runOnMachineFunction(MF);
   }
 
   void Select(SDNode *N) override;
 
-  #include "SimulatorGenDAGISel.inc"
+#include "SimulatorGenDAGISel.inc"
 };
 class SimulatorDAGToDAGISelLegacy : public SelectionDAGISelLegacy {
 public:
@@ -49,7 +51,7 @@ public:
 
   SimulatorDAGToDAGISelLegacy(SimulatorTargetMachine &TM, CodeGenOptLevel OptLevel)
       : SelectionDAGISelLegacy(
-            ID, std::make_unique<SimulatorDAGToDAGISel>(TM, OptLevel)){}
+            ID, std::make_unique<SimulatorDAGToDAGISel>(TM, OptLevel)){SIMULATOR_DUMP_RED}
 
         StringRef getPassName() const override {
     return "Simulator DAG->DAG Pattern Instruction Selection";
@@ -59,12 +61,16 @@ public:
 
 char SimulatorDAGToDAGISelLegacy::ID = 0;
 
+/// This pass converts a legalized DAG into a Simulator-specific DAG, ready for
+/// instruction scheduling.
 FunctionPass *llvm::createSimulatorISelDag(SimulatorTargetMachine &TM,
                                      CodeGenOptLevel OptLevel) {
+  SIMULATOR_DUMP_RED
   return new SimulatorDAGToDAGISelLegacy(TM, OptLevel);
 }
 
 void SimulatorDAGToDAGISel::Select(SDNode *Node) {
+  SIMULATOR_DUMP_RED
   if (Node->isMachineOpcode()) {
     Node->setNodeId(-1);
     return;

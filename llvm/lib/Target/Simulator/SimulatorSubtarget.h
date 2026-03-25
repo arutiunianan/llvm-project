@@ -1,6 +1,7 @@
 #ifndef LLVM_LIB_TARGET_SIMULATOR_SIMULATORSUBTARGET_H
 #define LLVM_LIB_TARGET_SIMULATOR_SIMULATORSUBTARGET_H
 
+#include "Simulator.h"
 #include "SimulatorFrameLowering.h"
 #include "SimulatorISelLowering.h"
 #include "SimulatorInstrInfo.h"
@@ -27,16 +28,20 @@ public:
   void ParseSubtargetFeatures(StringRef CPU, StringRef TuneCPU, StringRef FS);
 
   const SimulatorTargetLowering *getTargetLowering() const override {
+    SIMULATOR_DUMP_CYAN
     return &TLInfo;
   }
   const SimulatorFrameLowering *getFrameLowering() const override {
+    SIMULATOR_DUMP_CYAN
     return &FrameLowering;
   }
   const SimulatorRegisterInfo *getRegisterInfo() const override {
+    SIMULATOR_DUMP_CYAN
     return &RegInfo;
   }
   const SimulatorInstrInfo *getInstrInfo() const override { return &InstrInfo; }
   const SelectionDAGTargetInfo *getSelectionDAGInfo() const override {
+    SIMULATOR_DUMP_CYAN
     return &TSInfo;
   }
 };

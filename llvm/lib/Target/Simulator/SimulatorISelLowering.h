@@ -1,6 +1,7 @@
 #ifndef LLVM_LIB_TARGET_SIMULATOR_SIMULATORISELLOWERING_H
 #define LLVM_LIB_TARGET_SIMULATOR_SIMULATORISELLOWERING_H
 
+#include "Simulator.h"
 #include "llvm/CodeGen/SelectionDAG.h"
 #include "llvm/CodeGen/TargetLowering.h"
 
@@ -27,10 +28,12 @@ public:
 
   /// This method returns the name of a target specific DAG node.
   const char *getTargetNodeName(unsigned Opcode) const override;
+
+  /// Return true if the addressing mode represented by AM is legal for this
+  /// target, for a load/store of the specified type.
   bool isLegalAddressingMode(const DataLayout &DL, const AddrMode &AM, Type *Ty,
                              unsigned AS,
                              Instruction *I = nullptr) const override;
-
 
   SimulatorSubtarget const &getSubtarget() const { return STI; }
 

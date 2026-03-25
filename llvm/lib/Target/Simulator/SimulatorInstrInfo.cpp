@@ -1,4 +1,5 @@
 #include "SimulatorInstrInfo.h"
+#include "Simulator.h"
 #include "llvm/CodeGen/MachineFrameInfo.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
 #include "llvm/CodeGen/MachineMemOperand.h"
@@ -13,4 +14,4 @@ using namespace llvm;
 
 #define DEBUG_TYPE "Simulator-inst-info"
 
-SimulatorInstrInfo::SimulatorInstrInfo() : SimulatorGenInstrInfo() {}
+SimulatorInstrInfo::SimulatorInstrInfo() : SimulatorGenInstrInfo() { SIMULATOR_DUMP_GREEN }

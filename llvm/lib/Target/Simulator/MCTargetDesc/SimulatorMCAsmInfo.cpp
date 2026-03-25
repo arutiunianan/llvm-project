@@ -1,8 +1,10 @@
 #include "SimulatorMCAsmInfo.h"
+#include "Simulator.h"
 
 using namespace llvm;
 
 SimulatorELFMCAsmInfo::SimulatorELFMCAsmInfo(const Triple &TT) {
+  SIMULATOR_DUMP_MAGENTA
   SupportsDebugInformation = false;
   Data16bitsDirective = "\t.short\t";
   Data32bitsDirective = "\t.word\t";

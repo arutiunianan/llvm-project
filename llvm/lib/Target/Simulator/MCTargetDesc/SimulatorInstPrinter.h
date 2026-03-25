@@ -23,6 +23,7 @@ public:
   void printRegName(raw_ostream &O, MCRegister Reg) override;
   void printInst(const MCInst *MI, uint64_t Address, StringRef Annot,
                  const MCSubtargetInfo &STI, raw_ostream &O) override;
+
   void printOperand(const MCInst *MI, int OpNo, raw_ostream &OS);
 };
 } // end namespace llvm

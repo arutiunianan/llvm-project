@@ -29,7 +29,9 @@ class SimulatorAsmPrinter : public AsmPrinter {
 public:
   explicit SimulatorAsmPrinter(TargetMachine &TM,
                          std::unique_ptr<MCStreamer> Streamer)
-      : AsmPrinter(TM, std::move(Streamer)), STI(TM.getMCSubtargetInfo()) {}
+      : AsmPrinter(TM, std::move(Streamer)), STI(TM.getMCSubtargetInfo()) {
+    SIMULATOR_DUMP_GREEN
+  }
 
   void emitInstruction(const MachineInstr *MI) override;
 
@@ -50,6 +52,7 @@ public:
 #include "SimulatorGenMCPseudoLowering.inc"
 
 void SimulatorAsmPrinter::emitInstruction(const MachineInstr *MI) {
+  SIMULATOR_DUMP_GREEN
   // Do any auto-generated pseudo lowerings.
   if (MCInst OutInst; lowerPseudoInstExpansion(MI, OutInst)) {
     EmitToStreamer(*OutStreamer, OutInst);

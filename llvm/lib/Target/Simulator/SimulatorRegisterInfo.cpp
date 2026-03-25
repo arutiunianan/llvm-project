@@ -1,4 +1,5 @@
 #include "SimulatorRegisterInfo.h"
+#include "Simulator.h"
 #include "SimulatorFrameLowering.h"
 #include "llvm/CodeGen/TargetInstrInfo.h"
 
@@ -7,14 +8,17 @@ using namespace llvm;
 #define GET_REGINFO_TARGET_DESC
 #include "SimulatorGenRegisterInfo.inc"
 
-SimulatorRegisterInfo::SimulatorRegisterInfo() : SimulatorGenRegisterInfo(Simulator::R0) {}
-
+SimulatorRegisterInfo::SimulatorRegisterInfo() : SimulatorGenRegisterInfo(Simulator::R0) {
+  SIMULATOR_DUMP_GREEN
+}
 const MCPhysReg *
 SimulatorRegisterInfo::getCalleeSavedRegs(const MachineFunction *MF) const {
+  SIMULATOR_DUMP_GREEN
   return CSR_Simulator_SaveList;
 }
 
 BitVector SimulatorRegisterInfo::getReservedRegs(const MachineFunction &MF) const {
+  SIMULATOR_DUMP_GREEN
   SimulatorFrameLowering const *TFI = getFrameLowering(MF);
 
   BitVector Reserved(getNumRegs());
@@ -34,6 +38,7 @@ bool SimulatorRegisterInfo::requiresRegisterScavenging(
 bool SimulatorRegisterInfo::eliminateFrameIndex(MachineBasicBlock::iterator II,
                                           int SPAdj, unsigned FIOperandNum,
                                           RegScavenger *RS) const {
+  SIMULATOR_DUMP_GREEN
   assert(SPAdj == 0 && "Unexpected non-zero SPAdj value");
 
   MachineInstr &MI = *II;
@@ -57,6 +62,7 @@ bool SimulatorRegisterInfo::eliminateFrameIndex(MachineBasicBlock::iterator II,
 }
 
 Register SimulatorRegisterInfo::getFrameRegister(const MachineFunction &MF) const {
+  SIMULATOR_DUMP_GREEN
   const TargetFrameLowering *TFI = getFrameLowering(MF);
   return TFI->hasFP(MF) ? Simulator::R2 : Simulator::R1;
 }
@@ -64,5 +70,6 @@ Register SimulatorRegisterInfo::getFrameRegister(const MachineFunction &MF) cons
 const uint32_t *
 SimulatorRegisterInfo::getCallPreservedMask(const MachineFunction &MF,
                                       CallingConv::ID CC) const {
+  SIMULATOR_DUMP_GREEN
   return CSR_Simulator_RegMask;
 }
