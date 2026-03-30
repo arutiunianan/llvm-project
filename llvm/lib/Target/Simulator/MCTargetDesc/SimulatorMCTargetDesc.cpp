@@ -73,7 +73,8 @@ extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeSimulatorTargetMC() {
   // Register the MC subtarget info.
   TargetRegistry::RegisterMCSubtargetInfo(TheSimulatorTarget,
                                           createSimulatorMCSubtargetInfo);
-
   // Register the MCInstPrinter
   TargetRegistry::RegisterMCInstPrinter(TheSimulatorTarget, createSimulatorMCInstPrinter);
+  // Register the MC Code Emitter.
+  TargetRegistry::RegisterMCCodeEmitter(TheSimulatorTarget, createSimulatorMCCodeEmitter);
 }
