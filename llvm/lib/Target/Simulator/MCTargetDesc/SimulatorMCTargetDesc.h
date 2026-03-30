@@ -4,9 +4,17 @@
 namespace llvm {
 class MCCodeEmitter;
 class MCContext;
-class MCInstrInfo;
+class MCInstrInfo;class MCAsmBackend;
+class MCObjectTargetWriter;
+class MCRegisterInfo;
+class MCSubtargetInfo;
+class MCTargetOptions;
+class Target;
 
 MCCodeEmitter *createSimulatorMCCodeEmitter(const MCInstrInfo &MCII, MCContext &Ctx);
+MCAsmBackend *createSimulatorAsmBackend(const Target &T, const MCSubtargetInfo &STI,
+                                  const MCRegisterInfo &MRI,
+                                  const MCTargetOptions &Options);
 } // namespace llvm
 
 #define GET_REGINFO_ENUM
