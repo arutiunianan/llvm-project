@@ -1,6 +1,7 @@
 #ifndef LLVM_LIB_TARGET_SIMULATOR_MCTARGETDESC_SIMULATORMCTARGETDESC_H
 #define LLVM_LIB_TARGET_SIMULATOR_MCTARGETDESC_SIMULATORMCTARGETDESC_H
 
+#include <memory>
 namespace llvm {
 class MCCodeEmitter;
 class MCContext;
@@ -15,6 +16,8 @@ MCCodeEmitter *createSimulatorMCCodeEmitter(const MCInstrInfo &MCII, MCContext &
 MCAsmBackend *createSimulatorAsmBackend(const Target &T, const MCSubtargetInfo &STI,
                                   const MCRegisterInfo &MRI,
                                   const MCTargetOptions &Options);
+std::unique_ptr<MCObjectTargetWriter> createSimulatorELFObjectWriter(bool Is64Bit,
+                                                               uint8_t OSABI);
 } // namespace llvm
 
 #define GET_REGINFO_ENUM
